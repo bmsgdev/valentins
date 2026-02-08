@@ -518,6 +518,85 @@ function createFloatingHeart() {
 // Créer des cœurs régulièrement (moins fréquent pour un look plus pro)
 setInterval(createFloatingHeart, 1000);
 
+// ============================================
+// COMPTEUR DE VISITES AVEC UPSTASH REDIS
+// ============================================
+
+function initVisitCounter() {
+    const countElement = document.getElementById('visitCount');
+    if (!countElement) return;
+    
+    // Détecter si on est en local ou sur Vercel
+    const isLocal = window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1' ||
+                    window.location.protocol === 'file:';
+    
+    if (isLocal) {
+        // En local: utiliser un compteur simulé
+        console.log('Mode local détecté - compteur simulé');
+        let visits = parseInt(localStorage.getItem('valentine_visits') || '0');
+        visits++;
+        localStorage.setItem('valentine_visits', visits);
+        animateCounter(countElement, visits);
+        return;
+    }
+    
+    // Sur Vercel: appeler l'API pour le vrai compteur global
+    fetch('/api/counter')
+        .then(response => response.json())
+        .then(data => {
+            if (data.count) {
+                // Animation du compteur avec le vrai nombre
+                animateCounter(countElement, data.count);
+                
+                // Stocker localement pour détecter les revisites
+                let localVisits = parseInt(localStorage.getItem('valentine_visits') || '0');
+                localVisits++;
+                localStorage.setItem('valentine_visits', localVisits);
+                
+                // Message spécial si c'est une revisite
+                if (localVisits > 1) {
+                    setTimeout(() => {
+                        const counter = document.getElementById('visitCounter');
+                        if (counter) {
+                            counter.innerHTML = `<span class="counter-icon">💕</span> <strong>${data.count}</strong> visites • Tu reviens pour la <strong>${localVisits}ème</strong> fois 🥰`;
+                        }
+                    }, 2500);
+                }
+            }
+        })
+        .catch(error => {
+            console.log('Compteur API non disponible, fallback local');
+            // Fallback: compteur local
+            let visits = parseInt(localStorage.getItem('valentine_visits') || '0');
+            visits++;
+            localStorage.setItem('valentine_visits', visits);
+            countElement.textContent = '💕';
+        });
+}
+
+// Animation du compteur qui monte progressivement
+function animateCounter(element, target) {
+    let current = 0;
+    const duration = 1500; // 1.5 secondes
+    const steps = 30;
+    const increment = target / steps;
+    const stepTime = duration / steps;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current);
+    }, stepTime);
+}
+
+
+// Initialiser le compteur au chargement
+initVisitCounter();
+
 // Ajuster la position du bouton lors du redimensionnement
 window.addEventListener('resize', () => {
     if (btnNo.style.position === 'fixed') {

@@ -497,3 +497,42 @@ h1 {
     z-index: 50;
     border: 1px solid rgba(255, 107, 149, 0.3);
 }
+
+/* Compteur de visites */
+.visit-counter {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(10px);
+    padding: 12px 24px;
+    border-radius: 30px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    z-index: 50;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.visit-counter:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateX(-50%) scale(1.05);
+}
+
+.visit-counter .counter-icon {
+    margin-right: 8px;
+    animation: pulse-heart 1.5s ease infinite;
+}
+
+@keyframes pulse-heart {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+#visitCount {
+    font-weight: bold;
+    color: #ff6b95;
+    font-size: 1.1rem;
+}
