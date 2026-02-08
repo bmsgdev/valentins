@@ -11,8 +11,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow-x: hidden;
     position: relative;
+    padding: 10px;
 }
 
 /* Fond élégant avec effets subtils */
@@ -360,25 +361,101 @@ h1 {
 /* Responsive */
 @media (max-width: 600px) {
     .card {
-        padding: 30px 25px;
-        margin: 20px;
+        padding: 30px 20px;
+        margin: 15px;
+        max-width: calc(100vw - 30px);
     }
     
     h1 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
     
     .btn {
-        padding: 12px 25px;
-        font-size: 1rem;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        min-width: 100px;
+    }
+    
+    .btn-no {
+        width: 100px;
+        height: 48px;
+    }
+    
+    .buttons {
+        gap: 10px;
     }
     
     .success-message h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
+        padding: 0 10px;
+    }
+    
+    .success-message p {
+        font-size: 1rem;
+        padding: 0 10px;
     }
     
     .emoji-top {
-        font-size: 60px;
+        font-size: 50px;
+    }
+    
+    /* Compteur de visites mobile */
+    .visit-counter {
+        bottom: 60px;
+        left: 10px;
+        right: 10px;
+        transform: none;
+        padding: 10px 15px;
+        font-size: 0.75rem;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .visit-counter:hover {
+        transform: none;
+    }
+    
+    #visitCount {
+        font-size: 0.9rem;
+    }
+    
+    /* Footer mobile */
+    .powered-by {
+        bottom: 15px;
+        right: 10px;
+        font-size: 0.7rem;
+    }
+    
+    /* Popup mobile */
+    .popup {
+        padding: 25px 20px;
+        width: 90%;
+        max-width: 350px;
+    }
+    
+    .popup p {
+        font-size: 1rem;
+    }
+    
+    .popup-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .popup-emoji {
+        font-size: 40px;
+    }
+    
+    /* Message de fuite mobile */
+    .flee-message {
+        font-size: 1rem;
+    }
+    
+    /* Hearts animation */
+    .hearts-animation {
+        font-size: 1.5rem;
     }
 }
 
@@ -501,19 +578,23 @@ h1 {
 /* Compteur de visites */
 .visit-counter {
     position: fixed;
-    bottom: 20px;
+    bottom: 60px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(10px);
-    padding: 12px 24px;
+    padding: 10px 20px;
     border-radius: 30px;
     color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     z-index: 50;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
+    max-width: calc(100vw - 40px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .visit-counter:hover {
