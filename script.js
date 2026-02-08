@@ -559,7 +559,7 @@ function initVisitCounter() {
                     setTimeout(() => {
                         const counter = document.getElementById('visitCounter');
                         if (counter) {
-                            counter.innerHTML = `<span class="counter-icon">💕</span> <strong>${data.count}</strong> visites • Tu reviens pour la <strong>${localVisits}ème</strong> fois 🥰`;
+                            counter.innerHTML = `<span class="counter-icon">💕</span> <strong>${data.count}</strong> visites `;
                         }
                     }, 2500);
                 }
