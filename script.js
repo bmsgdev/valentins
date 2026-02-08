@@ -45,6 +45,31 @@ const coquinMessages = [
     "Mon amour est plus rapide que ta souris ! 💘"
 ];
 
+// Messages qui apparaissent quand le bouton fuit
+const fleeMessages = [
+    "Raté ! 😜",
+    "Trop lent ! 🏃",
+    "Nope ! 😏",
+    "Essay encore ! 👀",
+    "Presque ! 🤭",
+    "Haha ! 😂",
+    "Tu peux pas m'avoir ! 💅",
+    "*Whoosh* 💨",
+    "Je suis là ! 👋",
+    "🙈"
+];
+
+// Messages de taquinerie pour le bouton Oui
+const yesButtonTexts = [
+    "Oui 💖",
+    "OUI OUI OUI 💕",
+    "OUIII 🥰",
+    "Dis Oui! 😍",
+    "Clique ici 👇💖",
+    "❤️ OUI ❤️",
+    "Le bon choix →"
+];
+
 // Éléments DOM
 const btnNo = document.getElementById('btnNo');
 const btnYes = document.getElementById('btnYes');
@@ -62,6 +87,8 @@ const confettiContainer = document.getElementById('confettiContainer');
 let noAttempts = 0;
 let popupNoAttempts = 0;
 let isMoving = false;
+let yesButtonScale = 1;
+let totalAttempts = 0;
 
 // Initialisation selon le genre
 function initGender() {
@@ -117,10 +144,58 @@ function moveButton() {
     btnNo.style.zIndex = '50';
     btnNo.style.transition = 'left 0.25s ease-out, top 0.25s ease-out';
     
+    // Afficher un message drôle
+    showFleeMessage(currentX, currentY);
+    
+    // Grossir le bouton Oui à chaque tentative
+    growYesButton();
+    
+    // Changer le texte du bouton Oui de temps en temps
+    if (Math.random() > 0.5) {
+        btnYes.textContent = yesButtonTexts[Math.floor(Math.random() * yesButtonTexts.length)];
+    }
+    
     // Réinitialiser le flag après l'animation
     setTimeout(() => {
         isMoving = false;
     }, 250);
+}
+
+// Fonction pour afficher un message quand le bouton fuit
+function showFleeMessage(x, y) {
+    const msg = document.createElement('div');
+    msg.className = 'flee-message';
+    msg.textContent = fleeMessages[Math.floor(Math.random() * fleeMessages.length)];
+    msg.style.left = x + 'px';
+    msg.style.top = y + 'px';
+    document.body.appendChild(msg);
+    
+    // Mettre à jour le compteur
+    updateCounter();
+    
+    // Afficher un emoji de réaction parfois
+    if (Math.random() > 0.6) {
+        showReactionEmoji(x, y);
+    }
+    
+    setTimeout(() => msg.remove(), 1000);
+}
+
+// Fonction pour grossir le bouton Oui
+function growYesButton() {
+    totalAttempts++;
+    yesButtonScale = 1 + (totalAttempts * 0.08); // Grossit de 8% à chaque fois
+    
+    // Limiter la taille max
+    if (yesButtonScale > 2.5) yesButtonScale = 2.5;
+    
+    btnYes.style.transform = `scale(${yesButtonScale})`;
+    btnYes.style.transition = 'transform 0.3s ease';
+    
+    // Ajouter un effet de pulsation quand il devient gros
+    if (yesButtonScale > 1.5) {
+        btnYes.style.animation = 'pulse-yes 0.5s ease infinite';
+    }
 }
 
 // Fonction pour obtenir un message aléatoire
@@ -161,10 +236,76 @@ function celebrate() {
     mainContainer.style.display = 'none';
     popupOverlay.classList.add('hidden');
     celebration.classList.remove('hidden');
-    createConfetti();
+    
+    // Explosion de confettis initiale
+    for (let i = 0; i < 3; i++) {
+        setTimeout(() => createConfetti(), i * 200);
+    }
+    
+    // Faire vibrer l'écran (effet fun)
+    document.body.style.animation = 'shake 0.5s ease';
+    
+    // Jouer un son de célébration (si supporté)
+    playSound('celebrate');
     
     // Continuer les confettis
     setInterval(createConfetti, 3000);
+    
+    // Ajouter des feux d'artifice
+    setInterval(createFirework, 1500);
+}
+
+// Fonction pour créer des feux d'artifice
+function createFirework() {
+    const colors = ['#ff6b95', '#ff8a80', '#e91e63', '#f44336', '#ffeb3b', '#4caf50'];
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * (window.innerHeight / 2);
+    
+    for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'firework-particle';
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.setProperty('--angle', (i * 30) + 'deg');
+        document.body.appendChild(particle);
+        
+        setTimeout(() => particle.remove(), 1000);
+    }
+}
+
+// Fonction pour jouer des sons
+function playSound(type) {
+    // Créer un contexte audio simple
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        if (type === 'celebrate') {
+            // Mélodie joyeuse
+            const notes = [523, 659, 784, 1047]; // Do Mi Sol Do
+            notes.forEach((freq, i) => {
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.frequency.value = freq;
+                    osc.type = 'sine';
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                }, i * 150);
+            });
+        }
+    } catch (e) {
+        // Audio non supporté, pas grave
+    }
 }
 
 // Fonction pour gérer une tentative sur le bouton Non
@@ -214,32 +355,95 @@ popupNo.addEventListener('click', (e) => {
     e.preventDefault();
     popupNoAttempts++;
     
-    if (popupNoAttempts >= 2) {
-        // Forcer à accepter après 2 tentatives dans le popup
+    if (popupNoAttempts >= 5) {
+        // Forcer à accepter après 5 tentatives dans le popup
         popupMessage.textContent = "Non n'est plus une option ! 😈💕";
         popupNo.style.display = 'none';
     } else {
         // Nouveau message coquin
         popupMessage.textContent = getRandomMessage();
         
-        // Faire bouger le bouton Non du popup aussi
-        const moveX = (Math.random() - 0.5) * 80;
-        const moveY = (Math.random() - 0.5) * 40;
-        popupNo.style.transition = 'transform 0.2s ease-out';
-        popupNo.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        // Faire fuir le bouton agressivement sur tout l'écran
+        movePopupNoButton();
     }
 });
 
-// Bouton Non du popup fuit aussi
+// Fonction pour faire fuir le bouton Non du popup sur tout l'écran
+function movePopupNoButton() {
+    const padding = 20;
+    const btnWidth = popupNo.offsetWidth || 150;
+    const btnHeight = popupNo.offsetHeight || 50;
+    
+    // Position aléatoire sur tout l'écran
+    const newX = padding + Math.random() * (window.innerWidth - btnWidth - padding * 2);
+    const newY = padding + Math.random() * (window.innerHeight - btnHeight - padding * 2);
+    
+    // Sortir du popup et aller n'importe où sur l'écran
+    popupNo.style.position = 'fixed';
+    popupNo.style.left = newX + 'px';
+    popupNo.style.top = newY + 'px';
+    popupNo.style.zIndex = '300';
+    popupNo.style.transition = 'left 0.2s ease-out, top 0.2s ease-out';
+    popupNo.style.transform = 'none';
+    
+    // Afficher un message de fuite
+    showFleeMessage(newX, newY);
+}
+
+// Bouton Non du popup fuit aussi au survol - très agressif !
 popupNo.addEventListener('mouseenter', () => {
-    const moveX = (Math.random() - 0.5) * 80;
-    const moveY = (Math.random() - 0.5) * 40;
-    popupNo.style.transition = 'transform 0.15s ease-out';
-    popupNo.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    movePopupNoButton();
 });
+
+// Touch sur mobile pour le bouton popup
+popupNo.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    movePopupNoButton();
+}, { passive: false });
 
 // Initialisation
 initGender();
+// createAttemptCounter();
+
+// Créer le compteur de tentatives
+function createAttemptCounter() {
+    const counter = document.createElement('div');
+    counter.className = 'attempt-counter';
+    counter.id = 'attemptCounter';
+    counter.innerHTML = '💔 Tentatives de fuite: <span id="attemptNumber">0</span>';
+    document.body.appendChild(counter);
+}
+
+// Mettre à jour le compteur
+function updateCounter() {
+    const counterNum = document.getElementById('attemptNumber');
+    if (counterNum) {
+        counterNum.textContent = totalAttempts;
+        
+        // Ajouter un effet visuel
+        const counter = document.getElementById('attemptCounter');
+        counter.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+            counter.style.transform = 'scale(1)';
+        }, 200);
+    }
+}
+
+// Ajouter la mise à jour du compteur dans moveButton
+const originalMoveButton = moveButton;
+
+// Ajouter des emojis de réaction aléatoires
+function showReactionEmoji(x, y) {
+    const emojis = ['😜', '🤣', '😂', '🏃', '💨', '😏', '🙈', '👀', '🤭', '😅'];
+    const emoji = document.createElement('div');
+    emoji.className = 'reaction-emoji';
+    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.left = (x + Math.random() * 100 - 50) + 'px';
+    emoji.style.top = (y + Math.random() * 100 - 50) + 'px';
+    document.body.appendChild(emoji);
+    
+    setTimeout(() => emoji.remove(), 1500);
+}
 
 // Easter egg: Konami code pour célébrer directement
 let konamiCode = [];
@@ -253,6 +457,49 @@ document.addEventListener('keydown', (e) => {
         celebrate();
     }
 });
+
+// Easter egg: taper "love" ou "oui" au clavier
+let typedKeys = '';
+document.addEventListener('keydown', (e) => {
+    typedKeys += e.key.toLowerCase();
+    typedKeys = typedKeys.slice(-4);
+    
+    if (typedKeys === 'love' || typedKeys === 'ouii') {
+        celebrate();
+    }
+});
+
+// Si l'utilisateur attend trop longtemps, taquiner
+let idleTimer;
+function resetIdleTimer() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+        // Après 10 secondes d'inactivité
+        const taunts = [
+            "Tu réfléchis encore ? 🤔",
+            "Le bouton Oui t'attend... 💚",
+            "Je peux attendre toute la journée 😏",
+            "Pssst... clique sur Oui ! 🤫"
+        ];
+        
+        // Faire clignoter le bouton Oui
+        btnYes.style.animation = 'pulse-yes 0.3s ease 5';
+        
+        // Afficher un indice subtil
+        if (questionEl && Math.random() > 0.5) {
+            const originalText = questionEl.textContent;
+            questionEl.textContent = taunts[Math.floor(Math.random() * taunts.length)];
+            setTimeout(() => {
+                questionEl.textContent = originalText;
+            }, 2000);
+        }
+    }, 10000);
+}
+
+// Reset le timer à chaque mouvement de souris
+document.addEventListener('mousemove', resetIdleTimer);
+document.addEventListener('click', resetIdleTimer);
+resetIdleTimer();
 
 // Créer des cœurs flottants en arrière-plan (plus subtils)
 function createFloatingHeart() {
