@@ -460,6 +460,14 @@ h1 {
         font-size: 0.85rem;
     }
     
+    /* Bouton Non du popup qui fuit - taille réduite */
+    .popup-buttons .btn-small#popupNo {
+        width: auto !important;
+        min-width: 80px !important;
+        max-width: 120px !important;
+        padding: 10px 15px;
+    }
+    
     .popup-emoji {
         font-size: 40px;
     }

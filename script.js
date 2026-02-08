@@ -368,9 +368,12 @@ popupNo.addEventListener('click', (e) => {
     const msgIndex = Math.min(popupNoAttempts - 1, popupProgressiveMessages.length - 1);
     const progressiveMsg = popupProgressiveMessages[msgIndex];
     
-    // Mettre à jour le message et l'emoji
-    popupMessage.textContent = progressiveMsg.message;
-    document.querySelector('.popup-emoji').textContent = progressiveMsg.emoji;
+    // Mettre à jour le message et l'emoji avec un petit délai pour que ça soit visible
+    const popupEmoji = document.querySelector('.popup-emoji');
+    if (popupMessage && popupEmoji) {
+        popupMessage.textContent = progressiveMsg.message;
+        popupEmoji.textContent = progressiveMsg.emoji;
+    }
     
     // Grossir le bouton "D'accord, Oui !" à chaque refus
     const currentScale = 1 + (popupNoAttempts * 0.15);
@@ -382,6 +385,7 @@ popupNo.addEventListener('click', (e) => {
         popupNo.style.display = 'none';
         popupYes.textContent = "OUI 💖";
         popupYes.style.animation = 'pulse-yes 0.5s ease infinite';
+        popupMessage.textContent = "Non n'est plus une option ! 💕";
     } else {
         // Faire fuir le bouton agressivement sur tout l'écran
         movePopupNoButton();
@@ -424,7 +428,8 @@ function movePopupNoButton() {
     popupNo.style.transition = 'all 0.2s ease-out';
     popupNo.style.transform = 'none';
     popupNo.style.width = 'auto';
-    popupNo.style.minWidth = 'auto';
+    popupNo.style.minWidth = '60px';
+    popupNo.style.maxWidth = '100px';
     
     // Afficher un message de fuite
     showFleeMessage(newX, newY);
