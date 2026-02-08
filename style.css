@@ -536,3 +536,30 @@ h1 {
     color: #ff6b95;
     font-size: 1.1rem;
 }
+
+/* Footer Powered By */
+.powered-by {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    z-index: 50;
+    transition: all 0.3s ease;
+}
+
+.powered-by:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.powered-by a {
+    color: #ff6b95;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.powered-by a:hover {
+    color: #ff8a80;
+    text-shadow: 0 0 10px rgba(255, 107, 149, 0.5);
+}
