@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💕 Saint Valentin 💕</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="hearts-bg"></div>
+    
+    <div class="container" id="mainContainer">
+        <div class="card">
+            <div class="emoji-top">💝</div>
+            <h1 id="question">Veux-tu être ma Valentine ?</h1>
+            <div class="buttons">
+                <button class="btn btn-yes" id="btnYes">Oui 💖</button>
+                <button class="btn btn-no" id="btnNo">Non 💔</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="celebration hidden" id="celebration">
+        <div class="confetti-container" id="confettiContainer"></div>
+        <div class="success-message">
+            <h1 id="successTitle">🎉 Officiellement ma Valentine ! 🎉</h1>
+            <p>Continuons en DM, laisse-moi juste un "Hum"... 💋</p>
+            <div class="hearts-animation">
+                <span>💕</span><span>💖</span><span>💗</span><span>💓</span><span>💞</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup coquin -->
+    <div class="popup-overlay hidden" id="popupOverlay">
+        <div class="popup">
+            <div class="popup-emoji">😏</div>
+            <p id="popupMessage">Pourquoi tu essayes de fuir ? Accepte !</p>
+            <div class="popup-buttons">
+                <button class="btn btn-yes" id="popupYes">D'accord, Oui ! 💖</button>
+                <button class="btn btn-no btn-small" id="popupNo">Non quand même 😤</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
