@@ -350,19 +350,39 @@ btnYes.addEventListener('click', celebrate);
 // Événement pour le bouton Oui du popup
 popupYes.addEventListener('click', celebrate);
 
+// Messages progressifs pour le popup (de plus en plus insistants)
+const popupProgressiveMessages = [
+    { message: "Sérieusement ? Allez, dis oui ! 🥺", emoji: "🥺" },
+    { message: "Tu me brises le cœur là... 💔", emoji: "😢" },
+    { message: "Je vais pleurer si tu continues... 😭", emoji: "😭" },
+    { message: "Dernière chance... Dis OUI ! 🙏", emoji: "🙏" },
+    { message: "Non n'est plus une option ! 😈💕", emoji: "😈" }
+];
+
 // Événement pour le bouton Non du popup
 popupNo.addEventListener('click', (e) => {
     e.preventDefault();
     popupNoAttempts++;
     
+    // Récupérer le message progressif selon le nombre de tentatives
+    const msgIndex = Math.min(popupNoAttempts - 1, popupProgressiveMessages.length - 1);
+    const progressiveMsg = popupProgressiveMessages[msgIndex];
+    
+    // Mettre à jour le message et l'emoji
+    popupMessage.textContent = progressiveMsg.message;
+    document.querySelector('.popup-emoji').textContent = progressiveMsg.emoji;
+    
+    // Grossir le bouton "D'accord, Oui !" à chaque refus
+    const currentScale = 1 + (popupNoAttempts * 0.15);
+    popupYes.style.transform = `scale(${Math.min(currentScale, 1.8)})`;
+    popupYes.style.transition = 'transform 0.3s ease';
+    
     if (popupNoAttempts >= 5) {
         // Forcer à accepter après 5 tentatives dans le popup
-        popupMessage.textContent = "Non n'est plus une option ! 😈💕";
         popupNo.style.display = 'none';
+        popupYes.textContent = "💖 DIS OUI 💖";
+        popupYes.style.animation = 'pulse-yes 0.5s ease infinite';
     } else {
-        // Nouveau message coquin
-        popupMessage.textContent = getRandomMessage();
-        
         // Faire fuir le bouton agressivement sur tout l'écran
         movePopupNoButton();
     }

@@ -143,11 +143,12 @@ h1 {
 }
 
 .btn-small {
-    padding: 12px 28px;
-    font-size: 0.95rem;
-    min-width: 120px;
-    width: auto;
-    height: auto;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    min-width: auto;
+    width: auto !important;
+    height: auto !important;
+    white-space: nowrap;
 }
 
 /* Celebration */
@@ -442,6 +443,21 @@ h1 {
     .popup-buttons {
         flex-direction: column;
         gap: 10px;
+        width: 100%;
+    }
+    
+    .popup-buttons .btn {
+        width: 100% !important;
+        height: auto !important;
+        padding: 14px 20px;
+        min-width: auto;
+    }
+    
+    .popup-buttons .btn-small {
+        width: 100% !important;
+        height: auto !important;
+        padding: 12px 20px;
+        font-size: 0.85rem;
     }
     
     .popup-emoji {
