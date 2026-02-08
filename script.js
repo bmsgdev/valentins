@@ -27,36 +27,36 @@ const messages = {
     }
 };
 
-// Messages coquins/drôles pour le popup
+// Messages coquins pour le popup
 const coquinMessages = [
-    "Pourquoi tu essayes de fuir ? Accepte ! 😏",
-    "Tu crois vraiment pouvoir m'échapper ? 💋",
-    "Le destin nous a réunis... Dis oui ! 🔥",
-    "Ce bouton est plus rapide que toi 😜",
-    "Allez, arrête de jouer... Tu sais que tu veux dire oui ! 😘",
-    "Mon cœur court après le tien... 💓",
-    "Résistance futile ! L'amour gagne toujours 💝",
-    "Tu me fais courir... littéralement ! 🏃‍♂️💨",
-    "3 tentatives et tu fuis encore ? Coquin(e) ! 😈",
-    "Le bouton Non a des jambes, mais ton cœur dit Oui ! 💖",
-    "Arrête de jouer au chat et à la souris ! 🐱🐭",
-    "Je vois ce petit sourire... Dis OUI ! 😊",
-    "Tu veux vraiment me briser le cœur ? 🥺",
-    "Mon amour est plus rapide que ta souris ! 💘"
+    "Allez, fais-moi ce plaisir... 🥺",
+    "Tu sais que t'en as envie... 😊",
+    "Un petit oui, c'est tout ce que je demande 💕",
+    "Laisse-toi tenter... 😏",
+    "On serait tellement bien ensemble 💗",
+    "Dis oui, tu le regretteras pas 😘",
+    "Mon cœur n'attend que toi... 💓",
+    "Imagine nous deux... Dis oui 🥰",
+    "Fais-moi sourire, dis oui 😊",
+    "Je sais que tu craques un peu... 💕",
+    "Un oui et tu fais ma journée 🌹",
+    "S'il te plaît... pour moi ? 🥺",
+    "T'es vraiment sûr(e) de vouloir dire non ? 😏",
+    "Allez, juste un petit oui... 💋"
 ];
 
-// Messages qui apparaissent quand le bouton fuit
+// Messages mignons quand le bouton fuit
 const fleeMessages = [
-    "Raté ! 😜",
-    "Trop lent ! 🏃",
-    "Nope ! 😏",
-    "Essay encore ! 👀",
-    "Presque ! 🤭",
-    "Haha ! 😂",
-    "Tu peux pas m'avoir ! 💅",
-    "*Whoosh* 💨",
-    "Je suis là ! 👋",
-    "🙈"
+    "Dis oui 💕",
+    "Allez... 😊",
+    "Stp 🥺",
+    "Pour moi ? 💗",
+    "Hum... 😏",
+    "🥺",
+    "💕",
+    "😘",
+    "Oui ? 💓",
+    "❤️"
 ];
 
 // Messages de taquinerie pour le bouton Oui
@@ -380,7 +380,7 @@ popupNo.addEventListener('click', (e) => {
     if (popupNoAttempts >= 5) {
         // Forcer à accepter après 5 tentatives dans le popup
         popupNo.style.display = 'none';
-        popupYes.textContent = "💖 DIS OUI 💖";
+        popupYes.textContent = "OUI 💖";
         popupYes.style.animation = 'pulse-yes 0.5s ease infinite';
     } else {
         // Faire fuir le bouton agressivement sur tout l'écran
@@ -390,9 +390,8 @@ popupNo.addEventListener('click', (e) => {
 
 // Textes qui rétrécissent pour le bouton Non du popup
 const shrinkingNoTexts = [
-    "Non quand même 😤",
-    "Non... 😤",
     "Non 😤",
+    "Non..",
     "😤",
     "."
 ];
