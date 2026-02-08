@@ -41,7 +41,6 @@ const coquinMessages = [
     "Je sais que tu craques un peu... 💕",
     "Un oui et tu fais ma journée 🌹",
     "S'il te plaît... pour moi ? 🥺",
-    "T'es vraiment sûr(e) de vouloir dire non ? 😏",
     "Allez, juste un petit oui... 💋"
 ];
 
