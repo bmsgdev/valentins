@@ -388,11 +388,30 @@ popupNo.addEventListener('click', (e) => {
     }
 });
 
+// Textes qui rétrécissent pour le bouton Non du popup
+const shrinkingNoTexts = [
+    "Non quand même 😤",
+    "Non... 😤",
+    "Non 😤",
+    "😤",
+    "."
+];
+
 // Fonction pour faire fuir le bouton Non du popup sur tout l'écran
 function movePopupNoButton() {
     const padding = 20;
-    const btnWidth = popupNo.offsetWidth || 150;
-    const btnHeight = popupNo.offsetHeight || 50;
+    
+    // Réduire le texte du bouton à chaque fuite
+    const textIndex = Math.min(popupNoAttempts, shrinkingNoTexts.length - 1);
+    popupNo.textContent = shrinkingNoTexts[textIndex];
+    
+    // Réduire aussi la taille du bouton
+    const shrinkScale = Math.max(0.6, 1 - (popupNoAttempts * 0.1));
+    popupNo.style.fontSize = `${shrinkScale}rem`;
+    popupNo.style.padding = `${10 * shrinkScale}px ${15 * shrinkScale}px`;
+    
+    const btnWidth = popupNo.offsetWidth || 80;
+    const btnHeight = popupNo.offsetHeight || 40;
     
     // Position aléatoire sur tout l'écran
     const newX = padding + Math.random() * (window.innerWidth - btnWidth - padding * 2);
@@ -403,8 +422,10 @@ function movePopupNoButton() {
     popupNo.style.left = newX + 'px';
     popupNo.style.top = newY + 'px';
     popupNo.style.zIndex = '300';
-    popupNo.style.transition = 'left 0.2s ease-out, top 0.2s ease-out';
+    popupNo.style.transition = 'all 0.2s ease-out';
     popupNo.style.transform = 'none';
+    popupNo.style.width = 'auto';
+    popupNo.style.minWidth = 'auto';
     
     // Afficher un message de fuite
     showFleeMessage(newX, newY);
